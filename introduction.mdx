@@ -1,71 +1,74 @@
 ---
 title: Introduction
-description: 'Welcome to the home of your new documentation!'
+description: 'What is Comfy Deploy?'
 ---
 
-<img
-  className="block dark:hidden"
-  src="/images/hero-light.svg"
-  alt="Hero Light"
-/>
-<img
-  className="hidden dark:block"
-  src="/images/hero-dark.svg"
-  alt="Hero Dark"
-/>
+## Overview
 
-## Setting up
+Comfy Deploy makes it easy for teams to build, manage, and deploy AI workflows.
 
-The first step to world-class documentation is setting up your editing environments.
+A vercel for generative workflow infra.
+
+{/* ### Build
+We expose a [ComfyUI](https://github.com/comfyanonymous/ComfyUI) workspace, to help build and iterate on your AI workflows.
+
+### Manage
+We let you easily share and monitor your workflows deployed in production.
+
+Additionally you can easily add public or private models in our storage page
+
+### Deploy
+By default all your workflows can be turned into APIs with autoscaling GPUs to both save costs and reduce complexity.
+You can also use your own GPUs with custom machines */}
 
 <CardGroup cols={2}>
   <Card
-    title="Edit Your Docs"
-    icon="pen-to-square"
-    href="https://mintlify.com/docs/quickstart"
+    title="Install"
+    icon="wrench"
+    href="/installation"
   >
-    Get your docs set up locally for easy development
+    If you have ComfyUI installed locally, deploy your workflows now
   </Card>
   <Card
-    title="Preview Changes"
-    icon="image"
-    href="https://mintlify.com/docs/development"
+    title="Conceptual overview"
+    icon="telescope"
+    href="/overview"
   >
-    Preview your changes before you push to make sure they're perfect
+    Learn the basics of Comfy Deploy and get setup
   </Card>
 </CardGroup>
 
-## Make it yours
+## Explore
 
-Update your docs to your brand and add valuable content for the best user conversion.
+Some example workflows to spark your imagination
 
 <CardGroup cols={2}>
   <Card
-    title="Customize Style"
+    title="Txt2Img SDXL"
+    icon="image"
+    href="https://www.comfydeploy.com/share/comfy-deploy-example-txt2img-sdxl"
+  >
+    Classic Txt2Img workflow with SDXL.
+  </Card>
+  <Card
+    title="Img2Img Controlnet"
+    icon="frame"
+    href="https://www.comfydeploy.com/share/comfy-deploy-example-img2-img-sdxl-controlnet"
+  >
+    Guide the form of your AI images with Controlnet and Img2Img.
+  </Card>
+  <Card
+    title="Turbo Txt2Img (Fast)"
+    icon="truck-fast"
+    href="https://www.comfydeploy.com/share/comfy-deploy-example-txt2img-sdxl-turbo"
+  >
+    Sped up Txt2Img workflow using Turbo.
+  </Card>
+  <Card
+    title="Inpaint Automatically"
     icon="palette"
-    href="https://mintlify.com/docs/settings/global"
+    href="https://www.comfydeploy.com/share/comfy-deploy-example-automatic-inpainting-clip-seg"
   >
-    Customize your docs to your company's colors and brands
-  </Card>
-  <Card
-    title="Reference APIs"
-    icon="code"
-    href="https://mintlify.com/docs/api-playground/openapi"
-  >
-    Automatically generate endpoints from an OpenAPI spec
-  </Card>
-  <Card
-    title="Add Components"
-    icon="screwdriver-wrench"
-    href="https://mintlify.com/docs/components/accordion"
-  >
-    Build interactive features and designs to guide your users
-  </Card>
-  <Card
-    title="Get Inspiration"
-    icon="stars"
-    href="https://mintlify.com/showcase"
-  >
-    Check out our showcase of our favorite documentation
+    Get AI to inpaint and correct images based on text.
   </Card>
 </CardGroup>

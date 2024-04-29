@@ -1,0 +1,292 @@
+---
+title: "Workflows"
+description: "Workflows how do they work?"
+icon: "arrow-progress"
+---
+
+# Workflows and their related concepts
+
+Workflows in Comfy Deploy represent your **ComfyUI** workflows that you've uploaded and want to use in your own applications.
+
+## Workflow Verisons
+
+<Card>
+  Workflows have **versions**. Versions let you iterate on your workflows
+  without losing track of previous work.
+</Card>
+<img
+  style={{ borderRadius: "0.5rem", margin: "auto" }}
+  src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/workflow-version-arrow.webp"
+/>
+
+## Machines
+
+{" "}
+<Card>
+  Your workflows run on a machine [learn more here](machines)
+  The custom nodes your workflow depends on should be installed into your machine.
+</Card>
+<img
+  style={{ borderRadius: "0.5rem", margin: "auto" }}
+  src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/machine-select-workflow.webp"
+/>
+
+## Deployments and APIs
+
+{" "}
+<Card>
+  Deployments are how you can expose your workflows as APIs! Select your
+  **version** and **machine**. Then select either "production" or "staging" for
+  your deployment
+</Card>
+<img
+  style={{ borderRadius: "0.5rem", margin: "auto" }}
+  src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/deploy-dropdow%20.webp"
+/>
+<br />
+
+{" "}
+<Card>
+  You should see a deployment popup shortly in the bottom left, this means your
+  deployment is live!
+</Card>
+<img
+  style={{ borderRadius: "0.5rem", margin: "auto" }}
+  src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/deployments-underline.webp"
+/>
+
+## Integrating your Workflow API
+
+When you click this you'll find code snippets to integrate your Comfy
+workflows with your applications with a simple API call.{" "}
+
+- [Example of calling on the frontend.](https://github.com/BennyKok/comfyui-deploy-next-example/blob/97369e82cd43e910bf5f81a33eb2d0ebe320a318/src/app/page.tsx#L78-L89)
+- [JS SDK Usage](https://github.com/BennyKok/comfyui-deploy-next-example/blob/97369e82cd43e910bf5f81a33eb2d0ebe320a318/src/server/generate.tsx#L10-L17)
+- [Polling mechanism to update the frontend](https://github.com/BennyKok/comfyui-deploy-next-example/blob/97369e82cd43e910bf5f81a33eb2d0ebe320a318/src/app/page.tsx#L235-L265)
+
+If you're using `js/ts` you can install our SDk
+
+<CodeGroup>
+```bash npm 
+npm i comfydeploy 
+``` 
+```bash bun 
+bun i comfydeploy 
+``` 
+```bash pnpm 
+pnpm i comfydeploy 
+```
+```bash yarn 
+yarn add comfydeploy
+```
+</CodeGroup>
+
+Then you can intilize your client and create a run
+
+```javascript
+// Initialize your client
+const client = new ComfyDeployClient({
+    apiToken: process.env.COMFY_DEPLOY_API_KEY!,
+});
+
+// Create a run via deployment id
+const { run_id } = await client.run({
+deployment_id: "<YOUR DEPLOYMENT ID>",
+    // these inputs will change based on your situatoin
+    inputs: {
+        "positive_prompt": "",
+        "negative_prompt": ""
+    }
+});
+
+// Check the status of the run, and retrieve the outputs
+const run = await client.getRun(run_id);
+```
+
+## Dependencies
+
+<Card>
+  Dependencies are the **models**, **static assets** and **custom nodes** that
+  you need to run your workflows. We figure this out based on your local
+  environment and collect them so that you can get up and running quickly.
+  Currently we don't get all the dependencies but we do get a lot of the obvious
+  ones out of the way.
+</Card>
+<img
+  style={{ borderRadius: "0.5rem", margin: "auto" }}
+  src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/dependencies.webp"
+/>
+
+## Public Share
+
+{" "}
+<Card>
+  Public share is a way that you can quickly share your workflows with your
+  teammates or prospective clients.
+  <br />
+  Selecting "public", it will show up in your "deployments" section.
+</Card>
+<img
+  style={{ borderRadius: "0.5rem", margin: "auto" }}
+  src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/sharepage-highlight.webp"
+/>
+
+{" "}
+
+<Card>
+  When you click the public share tab in the deployment section, a popup with
+  fields to customize your Share page will show up. You'll be able to add a -
+  description of your workflow, - a "cover photo" to showcase. - The title of
+  the page will be the name of the workflow. - Users will be able to test out
+  the workflow, with the inputs you defined
+</Card>
+<img
+  style={{ borderRadius: "0.5rem", margin: "auto" }}
+  src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/sharepage-description.webp"
+/>
+
+{" "}
+<Card>
+  Your view share page will look something like{" "} [this](https://www.comfydeploy.com/share/comfy-deploy-example-txt2img-sdxl)
+
+  Check out this [examples page](https://comfydeploy.com/examples) for Comfy Deploy workflows! (They use sharepages!)
+</Card>
+<img
+  style={{ borderRadius: "0.5rem", margin: "auto" }}
+  src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/sharepageexample.webp"
+/>
+
+## External inputs
+
+{" "}
+<Card>
+  External inputs are how you define the inputs of your deployed APIs! This is
+  done by connecting Comfy Deploy's "External nodes" to your existing workflows.
+  You can find them by searching "external" for in your ComfyUI
+</Card>
+<img
+  style={{ borderRadius: "0.5rem", margin: "auto" }}
+  src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/find-external-inputs.webp"
+/>
+
+### Setting External Inputs
+
+{" "}
+<Card>
+  Let's say this is my workflow If I wanted to make it so that the positive
+  prompt was an **external input**.
+</Card>
+<img
+  style={{ borderRadius: "0.5rem", margin: "auto" }}
+  src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/example-workflow.webp"
+/>
+
+{" "}
+<Card>
+  1. Right click and select "Convert text to input" (this option is availble to
+  all your input values).
+</Card>
+<img
+  style={{ borderRadius: "0.5rem", margin: "auto" }}
+  src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/convert-totext-input.webp"
+/>
+
+{" "}
+<Card>2. Then you'll see that the value has turned into an input value</Card>
+<img
+  style={{ borderRadius: "0.5rem", margin: "auto" }}
+  src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/turned-to-input.png"
+/>
+
+<br />
+<Card>
+  3. Connect the Comfy Deploy "External text" node to it. Optionally write a
+  default value
+  <br />
+  4. Then deploy!{" "}
+  [in case you forgot how](install#2-setup-your-workflow)
+</Card>
+<img
+  style={{ borderRadius: "0.5rem", margin: "auto" }}
+  src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/connect-external-text.png"
+/>
+
+<br />
+<Card>Now you understand where you can set workflow inputs!</Card>
+<img
+  style={{ borderRadius: "0.5rem", margin: "auto" }}
+  src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/showing-input.webp"
+/>
+
+## Outputs
+Outputs are determined by "Save image" and "Preview img" we allow differnt types of outputs.
+- `.png`
+- `.jpg/jpeg`
+- `.webp`
+- `.octet-stream`
+
+<img
+  style={{ borderRadius: "0.5rem", margin: "auto" }}
+  src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/outputs.webp"
+/>
+
+## Observability
+
+<br />
+<Card>
+  Workflow observability means being able to undersatnd what happens on your
+  runs. What you see here is the inputs given, a link to the logs as well as the
+  final output.
+</Card>
+<img
+  style={{ borderRadius: "0.5rem", margin: "auto" }}
+  src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/observability.png"
+/>
+
+<br />
+<Card>
+  Also you are able to see the time spent in the different operations. As well
+  as the fine grained breakdown if you hover over the Duration.
+</Card>
+<img
+  style={{ borderRadius: "0.5rem", margin: "auto" }}
+  src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/time-observability.png"
+/>
+
+## Models and Storage
+
+The models your workflows depend on will be in storage [learn more here](/storage)
+
+### Properties - workflow version
+
+<ResponseField name="workflow_properties" type="Properties">
+  <Expandable title="Workflow Properties">
+    <ResponseField name="workflow_id" type="string">
+      Unique identifier for the workflow.
+    </ResponseField>
+    <ResponseField name="id" type="string">
+      Unique identifier for the workflow.
+    </ResponseField>
+    <ResponseField name="workflow" type="object">
+      The ComfyUI workflow object.
+    </ResponseField>
+    <ResponseField name="workflow_api" type="object">
+      The ComfyUI workflow API object.
+    </ResponseField>
+    <ResponseField name="version" type="integer">
+      The version number of the workflow.
+    </ResponseField>
+    <ResponseField name="snapshot" type="object">
+      The snapshot object from ComfyUI.
+    </ResponseField>
+    <ResponseField name="dependencies" type="object">
+      The dependencies object associated with the workflow.
+    </ResponseField>
+    <ResponseField name="created_at" type="timestamp">
+      Timestamp of when the workflow was created.
+    </ResponseField>
+    <ResponseField name="updated_at" type="timestamp">
+      Timestamp of when the workflow was last updated.
+    </ResponseField>
+  </Expandable>
+</ResponseField>

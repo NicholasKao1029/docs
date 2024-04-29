@@ -1,0 +1,32 @@
+---
+title: "Overview"
+description: "Concept overview"
+icon: "magnifying-glass"
+---
+
+# Overview
+
+This is a high level overview of what the general flow between your application and Comfy Deploy might look like.
+If you're aren't familiar with the terms and concepts, don't worry the next sections dive into details of how they work and how you can interact with them.
+This is meant to give you a sense of whats happening from a 10000 foot view.
+
+This diagram shows the general flow of information between you and the Comfy Deploy system.
+
+<img
+  style={{ borderRadius: "0.5rem", margin: "auto" }}
+  src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/overview-diagram.webp"
+/>
+
+It starts from your local comfy deploy on the left. After experimenting and figuring out the workflow that would work with your application.
+You would then deploy it to Comfy Deploy, as shown by the `update workflow`.
+
+Now that it's in Comfy Deploy, you'll create a deployment
+[learn more here](/workflows)
+- This deployment will allow you to run your workflow `(1. create run)`. 
+- After this run is created Comfy Deploy figures out the inputs and routes your request to the appropriate machine to handle it `(2. create run)`. 
+- During this our managed machines will send updates `(3a. Output and logs)` which you'll be able to poll for `(3b. Output and logs)`. 
+- You can use these progress indicators, outputs within your application, to show progress or to modify and interact further.
+
+This is the general gist of how the system works. We try to abstract away the complexities of infrastructure away, while giving you the tools to create great user experiences quickly and safely.
+
+Continue reading, to understand the main concepts of Comfy Deploy.

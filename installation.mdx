@@ -1,0 +1,90 @@
+---
+title: "Installation"
+---
+
+export const metadata = {
+  title: "Quickstart",
+  description:
+    "This guide will get you all set up and ready to use Comfy Deploy. We’ll cover how to get started an API client and how to make your first API request.",
+};
+
+# Getting started
+
+Install Comfy Deploy's plugin on your local ComfyUI to get started with deploying workflow.
+
+<CodeGroup>
+
+```bash git
+cd custom_nodes
+git clone https://github.com/BennyKok/comfyui-deploy.git
+```
+
+```js ComfyUI Manager
+// Install with ComfyUI Manager
+Search`ComfyUI Deploy`;
+```
+
+</CodeGroup>
+
+## 1. ComfyUI Manager
+
+Install from ComfyUI Manager
+
+<img
+  style={{ borderRadius: "0.5rem", margin: "auto" }}
+  src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/Screenshot%202024-03-03%20at%2012.10.13%E2%80%AFPM.png"
+/>
+
+Set up your API key, by clicking the 'cog' icon.
+
+<img
+  style={{ borderRadius: "0.5rem", margin: "auto" }}
+  className="w-fit max-h-200"
+  src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/Screenshot%202024-03-03%20at%2012.14.30%E2%80%AFPM.png"
+/>
+Open the settings panel and then set your API key here, if you dont have one, create
+here [Create API Key](/api-keys)
+<img
+  style={{ borderRadius: "0.5rem", margin: "auto" }}
+  className="max-w-lg"
+  src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/Screenshot%202024-03-03%20at%2012.12.13%E2%80%AFPM.png"
+/>
+
+## 2. Setup your workflow
+
+Deploy your workflow
+
+<img
+  style={{ borderRadius: "0.5rem", margin: "auto" }}
+  className="max-w-xl"
+  src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/Screenshot%202024-03-03%20at%2012.14.30%E2%80%AFPM.png"
+/>
+
+Set a name for your workflow
+
+<img
+  style={{ borderRadius: "0.5rem", margin: "auto" }}
+  className="max-w-xl"
+  src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/workflowname.png"
+/>
+
+Click confirm, we'll find your dependencies to your workflow, which you can confirm
+
+<img
+  style={{ borderRadius: "0.5rem", margin: "auto" }}
+  className="max-w-xl"
+  src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/dependnecies.png"
+/>
+
+You can then check it on your Comfy Deploy dashboard
+
+<img
+  style={{ borderRadius: "0.5rem", margin: "auto" }}
+  className="max-w-xl"
+  src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/deployed.png"
+/>
+
+## What's next?
+
+Now, hit the Deploy button and your workflow will be deployed to ComfyUI's server. Check out 
+[your workflows here](/workflows).

@@ -1,0 +1,143 @@
+---
+title: "Machines"
+description: "Buiding and defining machines"
+icon: "server"
+---
+
+# Machine concepts
+
+Machines in Comfy Deploy are what **run** your [Workflows](workflows).
+Here you'll define
+
+- **custom nodes**
+- **_particular_ models**
+- **GPU type**
+- **run timeout**
+- **idle timeout**
+
+## Create a new machine
+
+Clicking the "New machine +" button on the top right on the [machines page](https://comfydeploy.com/machines).
+
+## Options
+
+### Custom nodes
+
+The search functionality is based on the ComfyUI Manager list, so if it's in there it will be here.
+
+<Image
+  className="max-w-xl"
+  src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/custom-node.webp"
+/>
+
+If you have your own nodes that aren't on the list, hosted in a git repo. You can instead click the "edit" button.
+to reveal
+
+```json
+{
+    "comfyui": "d0165d819afe76bd4e6bdd710eb5f3e571b6a804",
+    "git_custom_nodes": {
+        "https://github.com/bennykok/comfyui-deploy": {
+        "hash": "df46e3a0e5ad93fa71f5d216997e376af33b2a6d",
+        "disabled": false
+        }
+    },
+    "file_custom_nodes": []
+}
+```
+
+To add a git repo such as "https://github.com/ltdrdata/ComfyUI-Impact-Pack". We would add the repo to the git_custom_nodes object
+with a new key being the git url, and the hash being the hash of the commit we want to pull from. This is where you can find the [commits for](https://github.com/ltdrdata/ComfyUI-Impact-Pack/commits/Main/)
+ComfyUI-Impact-Pack </a>
+
+```json
+{
+    "comfyui": "d0165d819afe76bd4e6bdd710eb5f3e571b6a804",
+    "git_custom_nodes": {
+        "https://github.com/bennykok/comfyui-deploy": {
+            "hash": "df46e3a0e5ad93fa71f5d216997e376af33b2a6d",
+            "disabled": false
+        },
+        "https://github.com/ltdrdata/ComfyUI-Impact-Pack": {
+            "hash": "585787bfa7fe0916821add13aa0e2a01c999a4df",
+            "disabled": false
+        }
+    },
+    "file_custom_nodes": []
+}
+```
+
+Be sure not to modify the comfyui hash and the "comfyui-deploy" object, unless you
+know what you're doing!
+
+### Models
+
+Most models you'll want to use will be in the [storage](https://comfydeploy.com/storage) tab.
+And we'll be looking to remove this and move fully to the storage tab
+
+The models that you can add to a machine are limited to very specific models most noticiably **animate-diff**
+
+This is due to quirks with the custom nodes that use these models.
+
+### GPU type
+
+**Options**
+
+| Model | VRAM (GB) | Performance Level | Cost per Hour |
+|-------|-----------|-------------------|---------------|
+| `T4`  | 16        | Standard          | $0.000164     |
+| `L4`  | 16        | Standard          | $0.000328     |
+| `A10G`| 40        | High              | $0.000656     |  
+| `A100`| 80        | Very High         | $0.001312     |
+| `H100`| 80        | Twice as High as A100 | $0.002464 |
+
+### Run timeout
+
+This is the maximum amount of time your GPUs will be able to run, default is 300 seconds or 5 minutes.
+
+### Idle timeout
+
+After your first workflow run, you might see a delay, this is due to whats called a "cold start". Where the GPU must be provisioned and the model loaded into memory before it can be used.
+
+However that is a one time cost if the GPU stays up running. What Idle timeout allows you to do is to, keep the GPU "warm" for a period of time (default 60 seconds), where subsequent requests while warm, will avoid the "cold start" problem.
+
+# Custom Machines
+
+Custom Machines are how you can use Comfy Deploy to route requests to your self-managed GPUs.
+
+### Setup
+
+You'll need to have a few things
+
+- Endpoint
+- Auth token (optional)
+
+Endpoint is the URL that we'll use to communicate with your Custom Machine, it is agnostic to your provider, but we do have
+specific "Types" of machines.
+
+Auth token, is how we will authenticate to your machine (applicate for runpod-serverless)
+
+### Types
+
+- modal-serverless
+- comfy-deploy-serverless
+- classic
+- runpod-serverless
+
+### Classic
+
+classic is how you can connect any generic endpoint, we'll route the request to and you can handle the rest.
+Use cases that our users are using
+
+- AWS Load balancer in front of GPUS
+- Pods on runpod
+- Personal GPU cluster
+
+### runpod-serverless
+
+In this case you'll need to find the auth token to be used and place it in the "Auth token" field.
+
+### Limitations
+
+it might make sense to spend the time to spin up your own VM's, however this _currently_ means you will have to do custom node management, models management. As well as full fidelity logging not being possible.
+If you are finding that you need to use Custom Machines, message us on [discord](https://discord.gg/7JmNEQUWP6); we'd love to help improve the experience!

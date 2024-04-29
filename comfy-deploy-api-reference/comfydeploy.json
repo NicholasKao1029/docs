@@ -1,0 +1,1396 @@
+{
+    "openapi": "3.0.1",
+    "servers": [
+        {
+            "url": "/api"
+        }
+    ],
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
+    "info": {
+        "version": "0.0.1",
+        "title": "Comfy Deploy API",
+        "description": "Interact with Comfy Deploy programmatically to trigger run and retrieve output"
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT",
+                "description": "Create your token in [Comfy Deploy](https://comfydeploy.com/api-keys)"
+            }
+        },
+        "schemas": {},
+        "parameters": {}
+    },
+    "paths": {
+        "/run": {
+            "post": {
+                "tags": [
+                    "workflows"
+                ],
+                "summary": "Run a workflow via deployment_id",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "deployment_id": {
+                                        "type": "string"
+                                    },
+                                    "inputs": {
+                                        "type": "object",
+                                        "additionalProperties": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "string"
+                                                },
+                                                {
+                                                    "type": "number"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "webhook": {
+                                        "type": "string",
+                                        "format": "uri"
+                                    }
+                                },
+                                "required": [
+                                    "deployment_id"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Workflow queued",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "run_id": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "run_id"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid or expired token",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Invalid or expired token"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error creating run",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "error"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "workflows"
+                ],
+                "summary": "Get workflow run output",
+                "description": "Call this to get a run's output, usually in conjunction with polling method",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "name": "run_id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retrieve the output",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        },
+                                        "workflow_version_id": {
+                                            "type": "string",
+                                            "nullable": true,
+                                            "format": "uuid"
+                                        },
+                                        "workflow_inputs": {
+                                            "type": "object",
+                                            "example": {
+                                                "input_text": "some external text input",
+                                                "input_image": "https://somestatic.png"
+                                            }
+                                        },
+                                        "workflow_id": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        },
+                                        "machine_id": {
+                                            "type": "string",
+                                            "nullable": true,
+                                            "format": "uuid"
+                                        },
+                                        "origin": {
+                                            "type": "string",
+                                            "enum": [
+                                                "manual",
+                                                "api",
+                                                "public-share",
+                                                "workspace"
+                                            ]
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "not-started",
+                                                "running",
+                                                "uploading",
+                                                "success",
+                                                "failed",
+                                                "started",
+                                                "queued",
+                                                "timeout"
+                                            ]
+                                        },
+                                        "ended_at": {
+                                            "type": "string",
+                                            "nullable": true
+                                        },
+                                        "created_at": {
+                                            "type": "string"
+                                        },
+                                        "queued_at": {
+                                            "type": "string",
+                                            "nullable": true
+                                        },
+                                        "started_at": {
+                                            "type": "string",
+                                            "nullable": true
+                                        },
+                                        "gpu": {
+                                            "type": "string",
+                                            "nullable": true,
+                                            "enum": [
+                                                "T4",
+                                                "L4",
+                                                "A10G",
+                                                "A100",
+                                                "H100"
+                                            ]
+                                        },
+                                        "machine_version": {
+                                            "type": "string",
+                                            "nullable": true
+                                        },
+                                        "machine_type": {
+                                            "type": "string",
+                                            "nullable": true,
+                                            "enum": [
+                                                "classic",
+                                                "runpod-serverless",
+                                                "modal-serverless",
+                                                "comfy-deploy-serverless",
+                                                "workspace"
+                                            ]
+                                        },
+                                        "modal_function_call_id": {
+                                            "type": "string",
+                                            "nullable": true
+                                        },
+                                        "user_id": {
+                                            "type": "string",
+                                            "nullable": true
+                                        },
+                                        "org_id": {
+                                            "type": "string",
+                                            "nullable": true
+                                        },
+                                        "run_log": {
+                                            "type": "object",
+                                            "example": [
+                                                {
+                                                    "logs": "some logs",
+                                                    "timestamp": 1706631877.3831277
+                                                }
+                                            ]
+                                        },
+                                        "live_status": {
+                                            "type": "string",
+                                            "nullable": true
+                                        },
+                                        "progress": {
+                                            "type": "number"
+                                        },
+                                        "is_realtime": {
+                                            "type": "boolean"
+                                        },
+                                        "webhook": {
+                                            "type": "string",
+                                            "nullable": true
+                                        },
+                                        "webhook_status": {
+                                            "type": "string",
+                                            "nullable": true,
+                                            "enum": [
+                                                "success",
+                                                "failed",
+                                                "not-started",
+                                                "running"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "id",
+                                        "workflow_version_id",
+                                        "workflow_inputs",
+                                        "workflow_id",
+                                        "machine_id",
+                                        "origin",
+                                        "status",
+                                        "ended_at",
+                                        "created_at",
+                                        "queued_at",
+                                        "started_at",
+                                        "gpu",
+                                        "machine_version",
+                                        "machine_type",
+                                        "modal_function_call_id",
+                                        "user_id",
+                                        "org_id",
+                                        "run_log",
+                                        "live_status",
+                                        "progress",
+                                        "is_realtime",
+                                        "webhook",
+                                        "webhook_status"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Workflow not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "code": {
+                                            "type": "string",
+                                            "example": 400
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Workflow not found"
+                                        }
+                                    },
+                                    "required": [
+                                        "code",
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid or expired token",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Invalid or expired token"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error getting output",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "error"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/upload-url": {
+            "get": {
+                "tags": [
+                    "files"
+                ],
+                "summary": "Upload any files to the storage",
+                "description": "Usually when you run something, you want to upload a file, image etc.",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "image/png",
+                                "image/jpg",
+                                "image/jpeg",
+                                "image/webp",
+                                "application/octet-stream"
+                            ]
+                        },
+                        "required": true,
+                        "name": "type",
+                        "in": "query"
+                    },
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "name": "file_size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retrieve the output",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "upload_url": {
+                                            "type": "string"
+                                        },
+                                        "file_id": {
+                                            "type": "string"
+                                        },
+                                        "download_url": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "upload_url",
+                                        "file_id",
+                                        "download_url"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid or expired token",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Invalid or expired token"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error when generating upload url",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "error"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/websocket/:deployment_id": {
+            "get": {
+                "tags": [
+                    "workflows"
+                ],
+                "summary": "Get a websocket url for a specific deployment",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "name": "deployment_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Workflow queued",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "ws_connection_url": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "ws_connection_url"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid or expired token",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Invalid or expired token"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error creating run",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "error"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth-response/:request_id": {
+            "get": {
+                "tags": [
+                    "comfyui"
+                ],
+                "summary": "Get an API Key with code",
+                "description": "This endpoints is specifically built for ComfyUI workflow upload.",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "name": "request_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The returned API Key",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "api_key": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "api_key",
+                                        "name"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "The API key is not yet ready",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "message"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid or expired token",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Invalid or expired token"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error when fetching the API Key with code",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "error"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/workflow": {
+            "post": {
+                "tags": [
+                    "comfyui"
+                ],
+                "summary": "Upload workflow from ComfyUI",
+                "description": "This endpoints is specifically built for ComfyUI workflow upload.",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "workflow_id": {
+                                        "type": "string"
+                                    },
+                                    "workflow_name": {
+                                        "type": "string",
+                                        "minLength": 1
+                                    },
+                                    "workflow": {
+                                        "nullable": true
+                                    },
+                                    "workflow_api": {
+                                        "type": "object",
+                                        "additionalProperties": {
+                                            "type": "object",
+                                            "properties": {
+                                                "inputs": {
+                                                    "type": "object",
+                                                    "additionalProperties": {
+                                                        "nullable": true
+                                                    }
+                                                },
+                                                "class_type": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "inputs"
+                                            ]
+                                        }
+                                    },
+                                    "snapshot": {
+                                        "type": "object",
+                                        "properties": {
+                                            "comfyui": {
+                                                "type": "string"
+                                            },
+                                            "git_custom_nodes": {
+                                                "type": "object",
+                                                "additionalProperties": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "hash": {
+                                                            "type": "string"
+                                                        },
+                                                        "disabled": {
+                                                            "type": "boolean"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "hash",
+                                                        "disabled"
+                                                    ]
+                                                }
+                                            },
+                                            "file_custom_nodes": {
+                                                "type": "array",
+                                                "items": {
+                                                    "nullable": true
+                                                }
+                                            }
+                                        },
+                                        "required": [
+                                            "comfyui",
+                                            "git_custom_nodes",
+                                            "file_custom_nodes"
+                                        ]
+                                    },
+                                    "dependencies": {
+                                        "type": "object",
+                                        "properties": {
+                                            "comfyui": {
+                                                "type": "string"
+                                            },
+                                            "missing_nodes": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "custom_nodes": {
+                                                "type": "object",
+                                                "additionalProperties": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "name": {
+                                                            "type": "string"
+                                                        },
+                                                        "node": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                    "inputs": {
+                                                                        "type": "object",
+                                                                        "additionalProperties": {
+                                                                            "nullable": true
+                                                                        }
+                                                                    },
+                                                                    "class_type": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "required": [
+                                                                    "inputs"
+                                                                ]
+                                                            }
+                                                        },
+                                                        "hash": {
+                                                            "type": "string"
+                                                        },
+                                                        "url": {
+                                                            "type": "string"
+                                                        },
+                                                        "files": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string"
+                                                            }
+                                                        },
+                                                        "install_type": {
+                                                            "anyOf": [
+                                                                {
+                                                                    "type": "string",
+                                                                    "enum": [
+                                                                        "copy",
+                                                                        "unzip",
+                                                                        "git-clone"
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "type": "string"
+                                                                }
+                                                            ]
+                                                        },
+                                                        "warning": {
+                                                            "type": "string"
+                                                        },
+                                                        "pip": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "name",
+                                                        "url"
+                                                    ]
+                                                }
+                                            },
+                                            "models": {
+                                                "type": "object",
+                                                "additionalProperties": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "name": {
+                                                                "type": "string"
+                                                            },
+                                                            "hash": {
+                                                                "type": "string"
+                                                            },
+                                                            "url": {
+                                                                "type": "string"
+                                                            }
+                                                        },
+                                                        "required": [
+                                                            "name"
+                                                        ]
+                                                    }
+                                                }
+                                            },
+                                            "files": {
+                                                "type": "object",
+                                                "additionalProperties": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "name": {
+                                                                "type": "string"
+                                                            },
+                                                            "hash": {
+                                                                "type": "string"
+                                                            },
+                                                            "url": {
+                                                                "type": "string"
+                                                            }
+                                                        },
+                                                        "required": [
+                                                            "name"
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "required": [
+                                            "comfyui",
+                                            "missing_nodes",
+                                            "custom_nodes",
+                                            "models",
+                                            "files"
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "workflow_api",
+                                    "snapshot"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Retrieve the output",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "workflow_id": {
+                                            "type": "string"
+                                        },
+                                        "version": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "workflow_id",
+                                        "version"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid or expired token",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Invalid or expired token"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error when uploading the workflow",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "error"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/workflow-version/:version_id": {
+            "get": {
+                "tags": [
+                    "comfyui"
+                ],
+                "summary": "Get comfyui workflow",
+                "description": "Use this to retrieve comfyui workflow by id",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "name": "version_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retrieve the output",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "workflow_id": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        },
+                                        "id": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        },
+                                        "workflow": {
+                                            "type": "object"
+                                        },
+                                        "workflow_api": {
+                                            "type": "object"
+                                        },
+                                        "user_id": {
+                                            "type": "string",
+                                            "nullable": true
+                                        },
+                                        "comment": {
+                                            "type": "string",
+                                            "nullable": true
+                                        },
+                                        "version": {
+                                            "type": "number"
+                                        },
+                                        "snapshot": {
+                                            "type": "object"
+                                        },
+                                        "dependencies": {
+                                            "type": "object"
+                                        },
+                                        "created_at": {
+                                            "type": "string"
+                                        },
+                                        "updated_at": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "workflow_id",
+                                        "id",
+                                        "workflow",
+                                        "workflow_api",
+                                        "user_id",
+                                        "comment",
+                                        "version",
+                                        "snapshot",
+                                        "dependencies",
+                                        "created_at",
+                                        "updated_at"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid or expired token",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Invalid or expired token"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error when uploading the workflow",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "error"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/workflow/:id": {
+            "get": {
+                "tags": [
+                    "comfyui"
+                ],
+                "summary": "Get comfyui workflow",
+                "description": "Use this to retrieve comfyui workflow by id",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retrieve the output",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "workflow_id": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        },
+                                        "id": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        },
+                                        "workflow": {
+                                            "type": "object"
+                                        },
+                                        "workflow_api": {
+                                            "type": "object"
+                                        },
+                                        "user_id": {
+                                            "type": "string",
+                                            "nullable": true
+                                        },
+                                        "comment": {
+                                            "type": "string",
+                                            "nullable": true
+                                        },
+                                        "version": {
+                                            "type": "number"
+                                        },
+                                        "snapshot": {
+                                            "type": "object"
+                                        },
+                                        "dependencies": {
+                                            "type": "object"
+                                        },
+                                        "created_at": {
+                                            "type": "string"
+                                        },
+                                        "updated_at": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "workflow_id",
+                                        "id",
+                                        "workflow",
+                                        "workflow_api",
+                                        "user_id",
+                                        "comment",
+                                        "version",
+                                        "snapshot",
+                                        "dependencies",
+                                        "created_at",
+                                        "updated_at"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid or expired token",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Invalid or expired token"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error when uploading the workflow",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "error"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/machine-endpoint": {
+            "post": {
+                "tags": [
+                    "workflows"
+                ],
+                "summary": "Create an endpoint for a machine",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "machine_id": {
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "machine_id",
+                                    "type"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Create short lived machine endpoint",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "url": {
+                                            "type": "string"
+                                        },
+                                        "gpu": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "url",
+                                        "gpu"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid or expired token",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Invalid or expired token"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error creating run",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "error"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/deployment/:id/inputs": {
+            "get": {
+                "tags": [
+                    "comfyui"
+                ],
+                "summary": "Get comfyui workflow inputs definition",
+                "description": "Use this to retrieve comfyui workflow inputs definition by id",
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retrieve the output",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "class_type": {
+                                                "type": "string"
+                                            },
+                                            "input_id": {
+                                                "type": "string"
+                                            },
+                                            "default_value": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "class_type",
+                                            "input_id",
+                                            "default_value"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid or expired token",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Invalid or expired token"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error when uploading the workflow",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "error"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/gpu_event": {
+            "post": {
+                "tags": [
+                    "machines"
+                ],
+                "summary": "Register a machine event",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "machine_id": {
+                                        "type": "string"
+                                    },
+                                    "timestamp": {
+                                        "type": "string"
+                                    },
+                                    "gpuType": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "enum": [
+                                            "T4",
+                                            "L4",
+                                            "A10G",
+                                            "A100",
+                                            "H100"
+                                        ]
+                                    },
+                                    "wsGpuType": {
+                                        "type": "string",
+                                        "nullable": true,
+                                        "enum": [
+                                            "4090"
+                                        ]
+                                    },
+                                    "eventType": {
+                                        "type": "string",
+                                        "enum": [
+                                            "gpu_start",
+                                            "gpu_end"
+                                        ]
+                                    },
+                                    "gpu_provider": {
+                                        "type": "string",
+                                        "enum": [
+                                            "modal",
+                                            "runpod"
+                                        ]
+                                    },
+                                    "event_id": {
+                                        "type": "string",
+                                        "nullable": true
+                                    }
+                                },
+                                "required": [
+                                    "machine_id",
+                                    "timestamp",
+                                    "eventType",
+                                    "gpu_provider"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Machine event registered",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "event_id": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "event_id"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid or expired token",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "Invalid or expired token"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error creating run",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "error"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

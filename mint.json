@@ -1,10 +1,6 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
-  "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
-  },
+  "name": "Comfy Deploy",
   "favicon": "/favicon.svg",
   "colors": {
     "primary": "#0D9373",
@@ -17,35 +13,35 @@
   },
   "topbarLinks": [
     {
-      "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "name": "Discord",
+      "url": "https://discord.gg/ygb6VZwaMt"
     }
   ],
   "topbarCtaButton": {
     "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "url": "https://comfydeploy.com"
   },
   "tabs": [
     {
-      "name": "API Reference",
-      "url": "api-reference"
+      "name": "Comfy Deploy API",
+      "url": "comfy-deploy-api-reference"
     }
   ],
   "anchors": [
     {
       "name": "Documentation",
       "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
+      "url": "https://comfydeploy.com/docs"
     },
     {
-      "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community"
+      "name": "Discord",
+      "icon": "discord",
+      "url": "https://discord.gg/ygb6VZwaMt"
     },
     {
       "name": "Blog",
       "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
+      "url": "https://comfydeploy.com/blog"
     }
   ],
   "navigation": [
@@ -53,39 +49,59 @@
       "group": "Get Started",
       "pages": [
         "introduction",
-        "quickstart",
-        "development"
+        "installation"
       ]
     },
     {
-      "group": "Essentials",
+      "group": "Concepts",
       "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
+        "overview",
+        "workflows",
+        "machine",
+        "storage"
       ]
     },
     {
-      "group": "API Documentation",
+      "group": "Comfy Deploy API",
       "pages": [
-        "api-reference/introduction"
+        "comfy-deploy-api-reference/introduction"
       ]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "Workflow Endpoint",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "comfy-deploy-api-reference/workflows/create-an-endpoint-for-a-machine",
+        "comfy-deploy-api-reference/workflows/get-a-websocket-url-for-a-specific-deployment",
+        "comfy-deploy-api-reference/workflows/get-workflow-run-output",
+        "comfy-deploy-api-reference/workflows/run-a-workflow-via-deployment_id"
+      ]
+    },
+    {
+      "group": "Files Endpoint",
+      "pages": [
+        "comfy-deploy-api-reference/files/upload-any-files-to-the-storage"
+      ]
+    },
+    {
+      "group": "ComfyUI Endpoint", 
+      "pages": [
+        "comfy-deploy-api-reference/comfyui/get-an-api-key-with-code",
+        "comfy-deploy-api-reference/comfyui/get-comfyui-workflow-1",
+        "comfy-deploy-api-reference/comfyui/get-comfyui-workflow-inputs-definition",
+        "comfy-deploy-api-reference/comfyui/get-comfyui-workflow",
+        "comfy-deploy-api-reference/comfyui/upload-workflow-from-comfyui"
+      ]
+    },
+    {
+      "group": "Machine Endpoint",
+      "pages": [
+        "comfy-deploy-api-reference/machines/register-a-machine-event"
       ]
     }
   ],
   "footerSocials": {
-    "twitter": "https://twitter.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://www.linkedin.com/company/mintsearch"
+    "discord": "https://discord.gg/ygb6VZwaMt",
+    "github": "https://github.com/comfy-deploy"
   }
 }
+
