@@ -11,6 +11,11 @@
       "to": "#07C983"
     }
   },
+  "feedback": {
+    "thumbsRating": true,
+    "suggestEdit": true,
+    "raiseIssue": true
+  },
   "topbarLinks": [
     {
       "name": "Discord",
