@@ -1,0 +1,17 @@
+---
+title: "Missing model"
+description: "I got some error saying I'm missing a model"
+icon: "env"
+---
+
+If a custom node requires a ENV variable. 
+
+For example such as OpenAI key for [this custom node](https://github.com/omar92/ComfyUI-QualityOfLifeSuit_Omar92?tab=readme-ov-file#openai-suite),
+
+### Steps
+1. Edit or create your machine definition.
+2. Scroll down to **Extra docker commands** section.
+3. Add a command `ENV VARIABLE_NAME=value`
+4. Save your machine definition
+
+This machine will then have this ENV variable 

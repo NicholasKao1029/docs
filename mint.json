@@ -30,13 +30,17 @@
     {
       "name": "Comfy Deploy API",
       "url": "comfy-deploy-api-reference"
+    },
+    {
+      "name": "FAQ",
+      "url": "faq"
     }
   ],
   "anchors": [
     {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://docs.comfydeploy.com"
+      "name": "Dashboard",
+      "icon": "table-columns",
+      "url": "https://comfydeploy.com"
     },
     {
       "name": "Discord",
@@ -101,6 +105,13 @@
       "group": "Machine Endpoint",
       "pages": [
         "comfy-deploy-api-reference/machines/register-a-machine-event"
+      ]
+    },
+    {
+      "group": "FAQ",
+      "pages": [
+        "faq/missing-models",
+        "faq/env-variables"
       ]
     }
   ],
