@@ -1,17 +1,21 @@
 ---
-title: "Missing model"
-description: "I got some error saying I'm missing a model"
-icon: "env"
+title: "Env variables"
+description: "How to add env variables to a machine"
 ---
+import DockerCommand from '/snippets/machine-docker-commands.mdx';
 
-If a custom node requires a ENV variable. 
-
+If a custom node requires a ENV variable, you can do this by adding a docker command to your machine.
 For example such as OpenAI key for [this custom node](https://github.com/omar92/ComfyUI-QualityOfLifeSuit_Omar92?tab=readme-ov-file#openai-suite),
+
+<DockerCommand/>
 
 ### Steps
 1. Edit or create your machine definition.
 2. Scroll down to **Extra docker commands** section.
-3. Add a command `ENV VARIABLE_NAME=value`
+3. Add and modify the command 
+```Docker 
+ENV VARIABLE_NAME=<value>
+```
 4. Save your machine definition
 
-This machine will then have this ENV variable 
+This machine will then have `VARIABLE_NAME` as an env variable.

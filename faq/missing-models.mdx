@@ -3,3 +3,22 @@ title: "Missing model"
 description: "I got some error saying I'm missing a model"
 icon: "robot"
 ---
+import DockerCommand from '/snippets/machine-docker-commands.mdx';
+
+When you're missing a model, there are 2 "types" of locations that the model can be in
+
+- Models directory
+- Direectly in a `custom nodes`
+
+Everything in models directory can be installed into [storage](/storage#installing-models)
+
+Custom nodes can be installed directly into a machine.
+You can do this via the docker commands
+
+<DockerCommand/>
+
+E.g. 
+```Docker 
+RUN wget -P /comfyui/custom_nodes/<dir> <download-link>
+```
+
