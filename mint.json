@@ -67,7 +67,8 @@
         "overview",
         "workflows",
         "machine",
-        "storage"
+        "storage",
+        "workspace"
       ]
     },
     {
