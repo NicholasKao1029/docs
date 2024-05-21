@@ -13,10 +13,19 @@ This on average gets you 80% there by figuring out those dependencies for you.
 
 ### Steps
 
-1. Get a workflow json.
+1. Get your workflow json.
 2. Go to your [workflows page](https://comfydeploy.com/workflows) and select `Json Workflow +`
-3. Give your workflow a name, and paste your workflow into the `Workflow json` field. We'll automatically create a machine for your worklfow that has all the custom nodes.
+<Frame>
+  <img src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/Screenshot%202024-05-21%20at%2012.53.09%E2%80%AFPM.png" style={{ borderRadius: '0.5rem' }} />
+</Frame>
+3. Give your workflow a name, and paste your workflow into the `Workflow json` field. We'll automatically create a machine named after your workflow that includes the workflows custom nodes.
+<Frame>
+  <img src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/Screenshot%202024-05-21%20at%2012.54.49%E2%80%AFPM.png" style={{ borderRadius: '0.5rem' }} />
+</Frame>
 4. Wait for your [machine](https://comfydeploy.com/machines) to build then click into your created workflow.
+<Frame>
+  <img src="https://pub-dc1367a5c1274d5fab74470cc70817e2.r2.dev/Screenshot%202024-05-21%20at%2012.56.18%E2%80%AFPM.png" style={{ borderRadius: '0.5rem' }} />
+</Frame>
 5. Wait for the workspace to load, then click `Deploy Changes` button on the left hand side. 
 6. You can now run your workflow on Comfy Deploy!
 7. BONUS: A lot of workflows might have their own models, we can detect a lot of the models your workflow uses which you can find in the API section of your workflow. Click into [dependencies](/workflows#dependencies) to see them right after you deploy from step 6!
