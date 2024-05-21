@@ -1,0 +1,27 @@
+---
+title: Workflow Json (Beta)
+icon: "arrow-up-from-bracket"
+---
+
+### Explainer
+
+A workflow json is the file you get when you click "Save" in ComfyUI, it defines the structure of the workflow.
+
+However getting that to work in your own system can be tricky, you have to figure out dependencies from python, custom nodes, and models.
+
+This on average gets you 80% there by figuring out those dependencies for you.
+
+### Steps
+
+1. Get a workflow json.
+2. Go to your [workflows page](https://comfydeploy.com/workflows) and select `Json Workflow +`
+3. Give your workflow a name, and paste your workflow into the `Workflow json` field. We'll automatically create a machine for your worklfow that has all the custom nodes.
+4. Wait for your [machine](https://comfydeploy.com/machines) to build then click into your created workflow.
+5. Wait for the workspace to load, then click `Deploy Changes` button on the left hand side. 
+6. You can now run your workflow on Comfy Deploy!
+
+### Next steps
+
+- `Models` can have different names and paths and places to download from. On top of this some `custom nodes` require models that aren't explicitly defined. You can add this to your [storage](/storage)
+- `Custom Nodes` can have different versions, and since we can't know for sure which commit the original workflow came from, we have to assume.
+- It's possible that we missed some custom nodes, we reccomend searching on google for your `missing node` and github to find the repo which you can then add to your [machine](/machine#custom-nodes)
