@@ -35,14 +35,14 @@ to reveal
 
 ```json
 {
-    "comfyui": "d0165d819afe76bd4e6bdd710eb5f3e571b6a804",
-    "git_custom_nodes": {
-        "https://github.com/bennykok/comfyui-deploy": {
-        "hash": "df46e3a0e5ad93fa71f5d216997e376af33b2a6d",
-        "disabled": false
-        }
-    },
-    "file_custom_nodes": []
+  "comfyui": "d0165d819afe76bd4e6bdd710eb5f3e571b6a804",
+  "git_custom_nodes": {
+    "https://github.com/bennykok/comfyui-deploy": {
+      "hash": "df46e3a0e5ad93fa71f5d216997e376af33b2a6d",
+      "disabled": false
+    }
+  },
+  "file_custom_nodes": []
 }
 ```
 
@@ -52,18 +52,18 @@ ComfyUI-Impact-Pack
 
 ```json
 {
-    "comfyui": "d0165d819afe76bd4e6bdd710eb5f3e571b6a804",
-    "git_custom_nodes": {
-        "https://github.com/bennykok/comfyui-deploy": {
-            "hash": "df46e3a0e5ad93fa71f5d216997e376af33b2a6d",
-            "disabled": false
-        },
-        "https://github.com/ltdrdata/ComfyUI-Impact-Pack": {
-            "hash": "585787bfa7fe0916821add13aa0e2a01c999a4df",
-            "disabled": false
-        }
+  "comfyui": "d0165d819afe76bd4e6bdd710eb5f3e571b6a804",
+  "git_custom_nodes": {
+    "https://github.com/bennykok/comfyui-deploy": {
+      "hash": "df46e3a0e5ad93fa71f5d216997e376af33b2a6d",
+      "disabled": false
     },
-    "file_custom_nodes": []
+    "https://github.com/ltdrdata/ComfyUI-Impact-Pack": {
+      "hash": "585787bfa7fe0916821add13aa0e2a01c999a4df",
+      "disabled": false
+    }
+  },
+  "file_custom_nodes": []
 }
 ```
 
@@ -83,13 +83,13 @@ This is due to quirks with the custom nodes that use these models.
 
 **Options**
 
-| Model | VRAM (GB) | Performance Level | Cost per Second |
-|-------|-----------|-------------------|---------------|
-| `T4`  | 16        | Standard          | $0.000164     |
-| `L4`  | 16        | Standard          | $0.000328     |
-| `A10G`| 40        | High              | $0.000656     |  
-| `A100`| 80        | Very High         | $0.001312     |
-| `H100`| 80        | Twice as High as A100 | $0.002464 |
+| Model  | VRAM (GB) | Performance Level | Cost per Second                 |
+| ------ | --------- | ----------------- | ------------------------------- |
+| `T4`   | 16        | Standard          | ${(0.000164 * 1.1).toFixed(6)} |
+| `L4`   | 16        | Standard          | ${(0.000291 * 1.1).toFixed(6)} |
+| `A10G` | 40        | High              | ${(0.000306 * 1.1).toFixed(6)} |
+| `A100` | 80        | Very High         | ${(0.001553 * 1.1).toFixed(6)}  |
+| `H100` | 80        | Double A100       | ${(0.002125 * 1.1).toFixed(6)} |
 
 ### Run timeout
 
